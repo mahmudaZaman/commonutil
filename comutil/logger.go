@@ -1,9 +1,10 @@
-package accessory
+package comutil
 
 import (
 	"context"
 	"fmt"
 	"go.uber.org/zap"
+	"log"
 )
 
 // NewLogger creates a New Logger.
@@ -20,6 +21,19 @@ func NewLogger(traceID, spanID string) *zap.Logger {
 	return l.With(zap.String("traceID", traceID),
 		zap.String("spanID", spanID),
 	)
+}
+
+// NewTraceableLogger accepts the input of c.Get("logger") and returns zap logger.
+// To avoid gin context in the common I think this is better approach to extract logger from gin context.
+func NewTraceableLogger(ins interface{}, exists bool) *zap.Logger {
+	if !exists {
+		log.Fatal("Application configuration error, zap.Logger is not present in gin context")
+	}
+	logger, ok := ins.(*zap.Logger)
+	if !ok {
+		log.Fatal("Application configuration error, invalid zap.Logger is set as logger in gin context")
+	}
+	return logger
 }
 
 // Log implements a common logger pattern in golang.

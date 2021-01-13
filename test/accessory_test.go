@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/mandatorySuicide/ts-common/accessory"
+	"github.com/mandatorySuicide/ts-common/comutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
@@ -15,7 +15,7 @@ func (s *AccessoryTestSuit) Test01() {
 	var str1 string = ""
 	var str2 string = "text-1"
 	var str3 string = "text-2"
-	accessory.Func.FirstNotNullString(str1, str2, str3)
+	comutil.FirstNotNullString(str1, str2, str3)
 	assert.Equal(s.T(), str2, "text-1", "Should return text-1")
 }
 
