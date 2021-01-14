@@ -39,7 +39,7 @@ func NewBadRequestError(dmTitle, dmDescription, dmCode string, err error) *RestE
 		},
 		HTTPStatus: http.StatusBadRequest,
 		Error:      err,
-		Timestamp:  comutil.Func.APIDateFormat(time.Now().UTC()),
+		Timestamp:  comutil.APIDateFormat(time.Now().UTC()),
 	}
 }
 
@@ -56,7 +56,7 @@ func NewInternalServerError(dmTitle, dmDescription, dmCode string, err error) *R
 		},
 		HTTPStatus: http.StatusInternalServerError,
 		Error:      err,
-		Timestamp:  comutil.Func.APIDateFormat(time.Now().UTC()),
+		Timestamp:  comutil.APIDateFormat(time.Now().UTC()),
 	}
 }
 
@@ -73,7 +73,7 @@ func NewUnAuthorizedError(dmTitle, dmDescription, dmCode string, err error) *Res
 		},
 		HTTPStatus: http.StatusUnauthorized,
 		Error:      err,
-		Timestamp:  comutil.Func.APIDateFormat(time.Now().UTC()),
+		Timestamp:  comutil.APIDateFormat(time.Now().UTC()),
 	}
 }
 
@@ -90,6 +90,6 @@ func NewForbiddenError(dmTitle, dmDescription, dmCode string, err error) *RestEr
 		},
 		HTTPStatus: http.StatusForbidden,
 		Error:      err,
-		Timestamp:  comutil.Func.APIDateFormat(time.Now().UTC()),
+		Timestamp:  comutil.APIDateFormat(time.Now().UTC()),
 	}
 }
