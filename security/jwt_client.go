@@ -18,39 +18,17 @@ type Principal struct {
 	jwt.StandardClaims
 }
 
-// TokenConfig interface represents config required for generating access token and refresh token.
-type TokenConfig interface {
-	GetAccessTokenExpInMinute() int
-	GetTokenIssuer() string
-	RefreshTokenExpInMinute() int
-	AccessTokenSigningKey() []byte
-	RefreshTokenSigningKey() []byte
-}
-
-// CreateToken function creates access token refresh token.
-func CreateToken(principal *Principal, cfg TokenConfig, aud string) (accessToken, refreshToken string, err error) {
-	atExpires := time.Now().Add(time.Minute * time.Duration(cfg.GetAccessTokenExpInMinute())).Unix()
-	accessUUID := uuid.New().String()
-	rtExpires := time.Now().Add(time.Hour * time.Duration(cfg.RefreshTokenExpInMinute())).Unix()
-	refreshUUID := uuid.New().String()
-	// Creating Access Token
-	atClaims := mapClaims(cfg.GetTokenIssuer(), principal.UserID, aud,
-		atExpires, time.Now().Unix(), time.Now().Unix(), accessUUID, "jwt")
-	addProfileClaims(&atClaims, principal)
+// CreateJwtToken Creates jwt token.
+func CreateJwtToken(
+	issuer, aud, signingKey string, atExpiresUnix int64, principal *Principal, includeProfile bool) (jwtToken string, err error) {
+	jti := uuid.New().String()
+	atClaims := mapClaims(issuer, principal.UserID, aud,
+		atExpiresUnix, time.Now().Unix(), time.Now().Unix(), jti, "jwt")
+	if includeProfile {
+		addProfileClaims(&atClaims, principal)
+	}
 	at := jwt.NewWithClaims(jwt.SigningMethodHS256, atClaims)
-	accessToken, accessTokenErr := at.SignedString(cfg.AccessTokenSigningKey())
-	if accessTokenErr != nil {
-		return "", "", accessTokenErr
-	}
-	// Creating Refresh Token
-	rtClaims := mapClaims(cfg.GetTokenIssuer(), principal.UserID, aud,
-		rtExpires, time.Now().Unix(), time.Now().Unix(), refreshUUID, "jwt")
-	rt := jwt.NewWithClaims(jwt.SigningMethodHS256, rtClaims)
-	refreshToken, refreshTokenErr := rt.SignedString(cfg.RefreshTokenSigningKey())
-	if refreshTokenErr != nil {
-		return "", "", refreshTokenErr
-	}
-	return accessToken, refreshToken, nil
+	return at.SignedString(signingKey)
 }
 
 func addProfileClaims(claims *jwt.MapClaims, principal *Principal) {
