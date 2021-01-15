@@ -54,9 +54,9 @@ func mapClaims(iss, sub, aud string, exp, nbf, iat int64, jti, typ string) jwt.M
 }
 
 // ExtractPrincipalFromToken extracts Principal from token.
-func ExtractPrincipalFromToken(encodedToken, secret string) (*Principal, error) {
+func ExtractPrincipalFromToken(encodedToken string, secret []byte) (*Principal, error) {
 	token, err := jwt.ParseWithClaims(encodedToken, &Principal{}, func(token *jwt.Token) (interface{}, error) {
-		return []byte(secret), nil
+		return secret, nil
 	})
 	if err != nil {
 		return nil, err
