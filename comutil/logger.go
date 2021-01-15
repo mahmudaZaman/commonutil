@@ -7,6 +7,11 @@ import (
 	"log"
 )
 
+type contextKeyType string
+
+// Logger is the key for holding zap logger in the context.
+const Logger contextKeyType = "logger"
+
 // NewLogger creates a New Logger.
 func NewLogger(traceID, spanID string) *zap.Logger {
 	config := zap.NewDevelopmentConfig()
@@ -38,5 +43,5 @@ func NewTraceableLogger(ins interface{}, exists bool) *zap.Logger {
 
 // Log implements a common logger pattern in golang.
 func Log(ctx context.Context) *zap.Logger {
-	return ctx.Value("logger").(*zap.Logger)
+	return ctx.Value(Logger).(*zap.Logger)
 }
