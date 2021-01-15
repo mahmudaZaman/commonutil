@@ -9,12 +9,12 @@ import (
 
 // Principal represents a logged in user in the system.
 type Principal struct {
-	FirstName string
-	LastName  string
-	Email     string
-	Picture   string
-	Roles     string
-	UserID    string
+	FirstName string `json:"firstName"`
+	LastName  string `json:"lastName"`
+	Email     string `json:"email"`
+	Picture   string `json:"picture"`
+	Roles     string `json:"roles"`
+	UserID    string `json:"sub"`
 	jwt.StandardClaims
 }
 
