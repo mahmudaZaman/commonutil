@@ -20,7 +20,7 @@ type Principal struct {
 
 // CreateJwtToken Creates jwt token.
 func CreateJwtToken(
-	issuer, aud, signingKey string, atExpiresUnix int64, principal *Principal, includeProfile bool) (jwtToken string, err error) {
+	issuer, aud string, signingKey []byte, atExpiresUnix int64, principal *Principal, includeProfile bool) (jwtToken string, err error) {
 	jti := uuid.New().String()
 	atClaims := mapClaims(issuer, principal.UserID, aud,
 		atExpiresUnix, time.Now().Unix(), time.Now().Unix(), jti, "jwt")
