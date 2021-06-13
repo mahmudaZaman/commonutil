@@ -17,6 +17,7 @@ func NewLogger(traceID, spanID string) *zap.Logger {
 	config := zap.NewDevelopmentConfig()
 	config.OutputPaths = []string{
 		"stdout",
+		"/var/log/timelyship/account.log",
 	}
 	config.EncoderConfig.LevelKey = "level"
 	config.EncoderConfig.TimeKey = "timestamp"
