@@ -1,4 +1,4 @@
-module github.com/mandatorySuicide/ts-common
+module github.com/mahmudaZaman/commonutil
 
 go 1.15
 

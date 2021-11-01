@@ -1,7 +1,7 @@
 package resterror
 
 import (
-	"github.com/mandatorySuicide/ts-common/comutil"
+	"github.com/mahmudaZaman/commonutil/comutil"
 	"net/http"
 	"time"
 )

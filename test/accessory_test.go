@@ -1,7 +1,7 @@
 package test
 
 import (
-	"github.com/mandatorySuicide/ts-common/comutil"
+	"github.com/mahmudaZaman/commonutil/comutil"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"testing"
